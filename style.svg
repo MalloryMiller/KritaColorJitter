@@ -14,7 +14,6 @@
     border-style:solid;
     border-image-repeat: stretch;
     border-image: linear-gradient(to right, #ef5350, #e46b01, #3db51c, #2196f3, #135cee, #0015d4, #4e24b6, #8f11ae) 4;
-    width: 300px;
     }
             </style>
             <a>ColorJitter</a>
