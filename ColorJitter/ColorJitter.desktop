@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Service
+ServiceTypes=Krita/PythonPlugin
+X-KDE-Library=ColorJitter
+X-Python-2-Compatible=false
+X-Krita-Manual=manual.html
+Name=ColorJitter
+Comment=Allows intuitive color jittering for any brush between strokes.
