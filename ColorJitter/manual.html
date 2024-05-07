@@ -14,7 +14,6 @@
       max-width: 650px;
       line-height: 1.6;
       font-size: 18px;
-      color: #444;
       padding: 0 10px;
     }
 
@@ -23,20 +22,29 @@
     h3 {
       line-height: 1.2
     }
+
+    h1,
+    a {
+
+    background: linear-gradient(to right, #ef5350, #e46b01, #a1d718, #2196f3, #135cee, #0015d4, #4e24b6, #8f11ae);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-width: 0px;
+    border-bottom: 3px;
+    border-style:solid;
+    border-image-repeat: stretch;
+    border-image: linear-gradient(to right, #ef5350, #e46b01, #3db51c, #2196f3, #135cee, #0015d4, #4e24b6, #8f11ae) 4;
+    }
+
   </style>
 </head>
 
 <body>
-  <a style="display: flex; justify-content: center;">
-    <img style="width: 100px;" src="https://pbs.twimg.com/profile_images/969614361349251072/z9DXgjbP_400x400.jpg" alt="your_logo_goes_here"
-    />
-  </a>
-  <h1 align="center">ColorJitter</h1>
-  <hr>
-  <p align="center">Allows intuitive color jittering for any brush between strokes.</p>
+  <a href="https://github.com/MalloryMiller/KritaColorJitter"><h1 align="center">ColorJitter</h1></a>
+  <p align="center">Allows intuitive color jittering for any brush.</p>
 
   <h2>Description</h2>
-  <p>Provide a brief description of the tool.</p>
+  <p>This plugin endeavors to allow color jitter, also called color dynamics, in Krita. While there is a way to create stamps <a href="https://www.youtube.com/watch?v=-WSQvjhjT3o">where each stamp is a slightly different color</a>, I could find no way to allow a brush to change color slightly with each stroke with the extensibility that other art programs do.</p>
 
   <h2>Features</h2>
   <ul>
@@ -45,13 +53,15 @@
   </ul>
 
   <h2>Setup</h2>
-  <p>Where to get the plugin, how to install and setup.</p>
+  <p><a href="https://github.com/MalloryMiller/KritaColorJitter"> The plugin can be downloaded from its github page.</a> </p>
+  <p>From that page, click the blue "Code" button and then "Download ZIP." In Krita, go to the bar at the top and navigate to "Tools" > "Scripts" > "Import Python Plugin From File." After clicking on that, find the downloaded .zip file and select it.</p>
+  <p>The added plugin may be automatically turned on, but go to "Settings" > "Configure Krita" and scroll to the bottom of the left pannel to find "Python Plugin Manager." Ensure that ColorJitter is checked off there. If ColorJitter seems not to be working at this point, close and reopen Krita.</p>
 
   <h2>Usage</h2>
   <p>How to use the plugin goes here. Embedding a giff or video tutorial is helpful!</p>
 
   <h2>Feedback</h2>
-  <p>Provide an email address or link to the issues page of the repo for support.</p>
+  <p>If you find any issues using this plugin (which has only been thourouly tested using the Linux 64-bit appimage version of the software), please submit an issue on its <a href="https://github.com/MalloryMiller/KritaColorJitter/issues">Github Issues page</a> with the "bug" label if you get the chance.</p>
 
   <h2>Credits</h2>
   <p>Provide a list of authors, contributors and inpiration for the plugin.</p>
