@@ -1,40 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <style>
-    /* Shout-out to http://bettermotherfuckingwebsite.com/ for this CSS */
-
-    body {
-      margin: 40px auto;
-      max-width: 650px;
-      line-height: 1.6;
-      font-size: 18px;
-      padding: 0 10px;
-    }
-
-    h1,
-    h2,
-    h3 {
-      line-height: 1.2
-    }
-
-    h1,
-    a {
-
-    background: linear-gradient(to right, #ef5350, #e46b01, #a1d718, #2196f3, #135cee, #0015d4, #4e24b6, #8f11ae);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    border-width: 0px;
-    border-bottom: 3px;
-    border-style:solid;
-    border-image-repeat: stretch;
-    border-image: linear-gradient(to right, #ef5350, #e46b01, #3db51c, #2196f3, #135cee, #0015d4, #4e24b6, #8f11ae) 4;
-    }
-
-  </style>
-</head>
-
 <body>
   <a href="https://github.com/MalloryMiller/KritaColorJitter"><h1 align="center">ColorJitter</h1></a>
   <p align="center">Intuitive color jittering for any brush.</p>
@@ -49,7 +15,7 @@
   </ul>
 
   <h2>Setup</h2>
-  <p><a href="https://github.com/MalloryMiller/KritaColorJitter"> The plugin can be downloaded from its github page.</a> </p>
+  <p> <img src="style.svg" width="400" height="400" alt="css-in-readme"> <a href="https://github.com/MalloryMiller/KritaColorJitter"> The plugin can be downloaded from its github page.</a> </p>
   <p>From that page, click the blue "Code" button and then "Download ZIP." In Krita, go to the bar at the top and navigate to "Tools" > "Scripts" > "Import Python Plugin From File." After clicking on that, find the downloaded .zip file and select it.</p>
   <p>The added plugin may be automatically turned on, but go to "Settings" > "Configure Krita" and scroll to the bottom of the left pannel to find "Python Plugin Manager." Ensure that ColorJitter is checked off there. If ColorJitter seems not to be working at this point, close and reopen Krita.</p>
 
