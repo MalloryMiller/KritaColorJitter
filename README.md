@@ -2,7 +2,7 @@
 <html lang="en">
 
 <body>
-  <a href="https://github.com/MalloryMiller/KritaColorJitter"><h1 align="center">ColorJitter</h1></a>
+  <a href="https://github.com/MalloryMiller/KritaColorJitter"> <img src="style.svg" alt="css-in-readme"> </a>
   <p align="center">Intuitive color jittering for any brush.</p>
 
   <h2>Description</h2>
@@ -15,7 +15,7 @@
   </ul>
 
   <h2>Setup</h2>
-  <p> <img src="style.svg" alt="css-in-readme"> <a href="https://github.com/MalloryMiller/KritaColorJitter"> The plugin can be downloaded from its github page.</a> </p>
+  <p><a href="https://github.com/MalloryMiller/KritaColorJitter"> The plugin can be downloaded from its github page.</a> </p>
   <p>From that page, click the blue "Code" button and then "Download ZIP." In Krita, go to the bar at the top and navigate to "Tools" > "Scripts" > "Import Python Plugin From File." After clicking on that, find the downloaded .zip file and select it.</p>
   <p>The added plugin may be automatically turned on, but go to "Settings" > "Configure Krita" and scroll to the bottom of the left pannel to find "Python Plugin Manager." Ensure that ColorJitter is checked off there. If ColorJitter seems not to be working at this point, close and reopen Krita.</p>
 
