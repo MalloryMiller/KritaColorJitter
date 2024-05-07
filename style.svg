@@ -3,21 +3,6 @@
         <div xmlns="http://www.w3.org/1999/xhtml">
             <style>
     /* Shout-out to http://bettermotherfuckingwebsite.com/ for this CSS */
-
-    body {
-      margin: 40px auto;
-      max-width: 650px;
-      line-height: 1.6;
-      font-size: 18px;
-      padding: 0 10px;
-    }
-
-    h1,
-    h2,
-    h3 {
-      line-height: 1.2
-    }
-
     h1,
     a {
 
@@ -31,7 +16,7 @@
     border-image: linear-gradient(to right, #ef5350, #e46b01, #3db51c, #2196f3, #135cee, #0015d4, #4e24b6, #8f11ae) 4;
     }
             </style>
-            <a>HELLO WORLD!</a>
+            <h1><a>ColorJitter</a></h1>
         </div>
     </foreignObject>
 </svg>
