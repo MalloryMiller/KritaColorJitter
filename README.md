@@ -2,7 +2,7 @@
 <html lang="en">
 
 <body>
-  <a href="https://github.com/MalloryMiller/KritaColorJitter"> <img src="style.svg" alt="css-in-readme"> </a>
+  <a href="https://github.com/MalloryMiller/KritaColorJitter"><h1 align="center"> <img src="style.svg" alt="css-in-readme"> </h1></a>
   <p align="center">Intuitive color jittering for any brush.</p>
 
   <h2>Description</h2>
