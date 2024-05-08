@@ -1,25 +1,20 @@
-from krita import Extension
+from krita import DockWidget, DockWidgetFactory, DockWidgetFactoryBase
 
-MENU_NAME = 'ColorJitter'
-EXTENSION_ID = 'pykrita_ColorJitter'
-MENU_ENTRY = 'Color Jitter'
+DOCKER_NAME = 'ColorJitter'
+DOCKER_ID = 'pyKrita_ColorJitter'
 
-class ColorJitter(Extension):
+class ColorJitter(DockWidget):
 
-    def __init__(self, parent):
-        super().__init__(parent)
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle(DOCKER_NAME) 
 
-    def setup(self):
+    def canvasChanged(self, canvas):
         pass
 
-    def createActions(self, window):
-        action = window.createAction(EXTENSION_ID, MENU_NAME, MENU_ENTRY)
-        action.triggered.connect(self.action_triggered)
-        
-    def action_triggered(self):
-        # code here.
-        pass  
+instance = Krita.instance()
+dock_widget_factory = DockWidgetFactory(DOCKER_ID, 
+    DockWidgetFactoryBase.DockRight, 
+    ColorJitter)
 
-app=Krita.instance()
-extension=ColorJitter(parent=app)
-app.addExtension(extension)
+instance.addDockWidgetFactory(dock_widget_factory)
