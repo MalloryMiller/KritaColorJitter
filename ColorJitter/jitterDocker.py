@@ -17,16 +17,23 @@ class Jitter():
     def __init__(self):
         self.base = [1.0, 1.0, 1.0]
         self.base_aph = 1
-        self.lum_jitter = 0
-        self.hue_jitter = 0
-        self.sat_jitter = 0
-        self.aph_jitter = 0
+        self.val_jitter = 1.0
+        self.hue_jitter = 1.0
+        self.sat_jitter = 1.0
+        self.aph_jitter = 1.0
+
+        self.jitter_formulas = [
+            self.randomize,
+            self.randomize,
+            self.randomize,
+            self.randomize,
+        ]
 
     def finishStroke(self):
+        print(self.base)
         
         depth = Krita.instance().activeDocument().colorDepth()
 
-        new
         as_rgb = cs.hsv_to_rgb(self.base[0], self.base[1], self.base[2])
 
         managed_color = ManagedColor("RGBA", depth, "")
@@ -34,32 +41,37 @@ class Jitter():
         red = as_rgb[0]
         green = as_rgb[1]
         blue = as_rgb[2]
-        alpha = self.randomize(self.base_aph, self.aph_jitter)
-        comp = [blue, green, red, alpha]
-        managed_color.setComponents(comp)
-
-        return self.base
-    
-    def randomize(amount):
-        return (amount + (float(r.randint()) / 100)) % 1 + 0.01
-    
-    def setBase(self, color):
-        self.base = color
-
-    def newColor(self):
-        
-        depth = Krita.instance().activeDocument().colorDepth()
-
-        managed_color = ManagedColor("RGBA", depth, "")
-        comp = managed_color.components()
-        red   = 0.4
-        green = 0.5
-        blue  = 0.6
         alpha = self.base_aph
         comp = [blue, green, red, alpha]
         managed_color.setComponents(comp)
 
+        return self.base
+    def newColor(self):
+        
+        depth = Krita.instance().activeDocument().colorDepth()
+
+        
+        as_rgb = cs.hsv_to_rgb(self.jitter_formulas[0](self.base[0], self.hue_jitter / 2),
+                               self.jitter_formulas[1](self.base[1], self.sat_jitter / 2),
+                               self.jitter_formulas[2](self.base[2], self.val_jitter / 2))
+
+        managed_color = ManagedColor("RGBA", depth, "")
+        comp = managed_color.components()
+        red = as_rgb[0]
+        green = as_rgb[1]
+        blue = as_rgb[2]
+        alpha = self.jitter_formulas[3](self.base_aph, self.aph_jitter)
+        comp = [blue, green, red, alpha]
+        managed_color.setComponents(comp)
+
         return managed_color
+    
+    def randomize(self, base, jitter):
+        return (base + (float(r.randint(-int(jitter * 100), int(jitter * 100))) / 100)) % 1 + 0.01
+    
+    def setBase(self, color):
+        self.base = color
+
 
 
 
@@ -119,8 +131,8 @@ class ColorJitterEx(Extension):
         pass
 
     def resetColor(self):
-        jitter.base = Krita.instance().activeWindow().activeView().ForeGroundColor()
-        print(jitter.base)
+        #jitter.base = Krita.instance().activeWindow().activeView().ForeGroundColor()
+        #print(jitter.base)
         Krita.instance().activeWindow().activeView().setForeGroundColor(jitter.finishStroke())
 
 
