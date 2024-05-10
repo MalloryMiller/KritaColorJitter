@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ActionCollection version="2" name="Scripts">
+    <Actions category="Scripts">
+        <text>New Jittered Color</text>
+
+        <Action name="NewJitteredColor">
+        <icon></icon>
+        <text>New Jittered Color</text>
+        <whatsThis></whatsThis>
+        <toolTip></toolTip>
+        <iconText>New Color</iconText>
+        <activationFlags>10000</activationFlags>
+        <activationConditions>0</activationConditions>
+        <shortcut>ctrl+alt+A</shortcut>
+        <isCheckable>false</isCheckable>
+        <statusTip>New random Color</statusTip>
+        </Action>
+
+        <Action name="ResetColor">
+        <icon></icon>
+        <text>Return to Base Color</text>
+        <whatsThis></whatsThis>
+        <toolTip></toolTip>
+        <iconText>Former Color</iconText>
+        <activationFlags>10000</activationFlags>
+        <activationConditions>0</activationConditions>
+        <shortcut>ctrl+alt+Z</shortcut>
+        <isCheckable>false</isCheckable>
+        <statusTip>Return to Base Color</statusTip>
+        </Action>
+    </Actions>
+</ActionCollection>
