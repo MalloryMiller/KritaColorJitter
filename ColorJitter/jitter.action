@@ -28,5 +28,18 @@
         <isCheckable>false</isCheckable>
         <statusTip>Return to Base Color</statusTip>
         </Action>
+
+        <Action name="SetAsBase">
+        <icon></icon>
+        <text>Set as Base Color</text>
+        <whatsThis></whatsThis>
+        <toolTip></toolTip>
+        <iconText>New Base</iconText>
+        <activationFlags>10000</activationFlags>
+        <activationConditions>0</activationConditions>
+        <shortcut>ctrl+alt+X</shortcut>
+        <isCheckable>false</isCheckable>
+        <statusTip>Set as Base Color</statusTip>
+        </Action>
     </Actions>
 </ActionCollection>

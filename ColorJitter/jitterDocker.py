@@ -17,19 +17,19 @@ class Jitter():
     def __init__(self):
         self.base = [1.0, 1.0, 1.0]
         self.base_aph = 1
-        self.val_jitter = 1.0
-        self.hue_jitter = 1.0
-        self.sat_jitter = 1.0
+        self.val_jitter = 0.25
+        self.hue_jitter = 0.25
+        self.sat_jitter = 0.25
         self.aph_jitter = 1.0
 
         self.jitter_formulas = [
-            self.randomize,
+            self.randomizeLooped,
             self.randomize,
             self.randomize,
             self.randomize,
         ]
 
-    def finishStroke(self):
+    def resetColor(self):
         print(self.base)
         
         depth = Krita.instance().activeDocument().colorDepth()
@@ -41,11 +41,12 @@ class Jitter():
         red = as_rgb[0]
         green = as_rgb[1]
         blue = as_rgb[2]
-        alpha = self.base_aph
-        comp = [blue, green, red, alpha]
+        comp = [blue, green, red, 1]
         managed_color.setComponents(comp)
 
-        return self.base
+        return managed_color
+    
+
     def newColor(self):
         
         depth = Krita.instance().activeDocument().colorDepth()
@@ -60,17 +61,26 @@ class Jitter():
         red = as_rgb[0]
         green = as_rgb[1]
         blue = as_rgb[2]
-        alpha = self.jitter_formulas[3](self.base_aph, self.aph_jitter)
-        comp = [blue, green, red, alpha]
+        comp = [blue, green, red, 1]
         managed_color.setComponents(comp)
 
         return managed_color
     
-    def randomize(self, base, jitter):
+    def randomizeLooped(self, base, jitter): #Base and Jitter both floats
         return (base + (float(r.randint(-int(jitter * 100), int(jitter * 100))) / 100)) % 1 + 0.01
     
-    def setBase(self, color):
-        self.base = color
+    def randomize(self, base, jitter): #Base and Jitter both floats
+        val =  (base + (float(r.randint(-int(jitter * 100), int(jitter * 100))) / 100))
+        if val > 1:
+            return 1
+        if val < 0:
+            return 0
+        return val
+    
+    def setBase(self, color): #Takes in a QColor
+        self.base[0] = color.hsvHueF()
+        self.base[1] = color.saturationF()
+        self.base[2] = color.valueF()
 
 
 
@@ -122,8 +132,10 @@ class ColorJitterEx(Extension):
         
         new = window.createAction("NewJitteredColor", 'New Jittered Color', "tools/scripts")
         ret = window.createAction("ResetColor", 'Return to Base Color', "tools/scripts")
+        bas = window.createAction("SetAsBase", 'Set as Base Color', "tools/scripts")
         new.triggered.connect(self.newColor)
-        ret.triggered.connect(self.newColor)
+        ret.triggered.connect(self.resetColor)
+        bas.triggered.connect(self.setAsBase)
         
     def newColor(self):
         print(jitter.newColor())
@@ -131,9 +143,14 @@ class ColorJitterEx(Extension):
         pass
 
     def resetColor(self):
-        #jitter.base = Krita.instance().activeWindow().activeView().ForeGroundColor()
+        #jitter.base = Krita.instance().activeWindow().activeView().foregroundColor()
         #print(jitter.base)
-        Krita.instance().activeWindow().activeView().setForeGroundColor(jitter.finishStroke())
+        Krita.instance().activeWindow().activeView().setForeGroundColor(jitter.resetColor())
+    
+    def setAsBase(self):
+        jitter.setBase(Krita.instance().activeWindow().activeView().foregroundColor().colorForCanvas(Krita.instance().activeWindow().activeView().canvas()).toHsv())
+        print(jitter.base)
+
 
 
 
