@@ -6,6 +6,7 @@ from krita import (DockWidget, DockWidgetFactory, DockWidgetFactoryBase,
                    QStyleOptionToolButton, QStylePainter, QWidget,
                    Extension, ManagedColor)
 
+import colorsys as cs
 import random as r
 
 instance = Krita.instance()
@@ -33,12 +34,14 @@ class Jitter():
         
         depth = Krita.instance().activeDocument().colorDepth()
 
-        managed_color = ManagedColor("HSV", depth, "")
+        as_rgb = cs.hsv_to_rgb(self.base[0], self.base[1], self.base[2])
+
+        managed_color = ManagedColor("RGBA", depth, "")
         comp = managed_color.components()
-        hue = self.base[0]
-        sat = self.base[1]
-        val = self.base[2]
-        comp = [hue, sat, val, 1]
+        red = as_rgb[0]
+        green = as_rgb[1]
+        blue = as_rgb[2]
+        comp = [blue, green, red, 1]
         managed_color.setComponents(comp)
 
         return managed_color
@@ -49,18 +52,16 @@ class Jitter():
         depth = Krita.instance().activeDocument().colorDepth()
 
         
-        new_color = [
-            self.jitter_formulas[0](self.base[0], self.hue_jitter / 2),
-            self.jitter_formulas[1](self.base[1], self.sat_jitter / 2),
-            self.jitter_formulas[2](self.base[2], self.val_jitter / 2)
-            ]
+        as_rgb = cs.hsv_to_rgb(self.jitter_formulas[0](self.base[0], self.hue_jitter / 2),
+                               self.jitter_formulas[1](self.base[1], self.sat_jitter / 2),
+                               self.jitter_formulas[2](self.base[2], self.val_jitter / 2))
 
-        managed_color = ManagedColor("HSV", depth, "")
+        managed_color = ManagedColor("RGBA", depth, "")
         comp = managed_color.components()
-        hue = new_color[0]
-        sat = new_color[1]
-        val = new_color[2]
-        comp = [hue, sat, val, 1]
+        red = as_rgb[0]
+        green = as_rgb[1]
+        blue = as_rgb[2]
+        comp = [blue, green, red, 1]
         managed_color.setComponents(comp)
 
         return managed_color
@@ -147,9 +148,8 @@ class ColorJitterEx(Extension):
         Krita.instance().activeWindow().activeView().setForeGroundColor(jitter.resetColor())
     
     def setAsBase(self):
-        jitter.setBase(Krita.instance().activeWindow()
-                       .activeView().foregroundColor()
-                       .colorForCanvas(Krita.instance().activeWindow().activeView().canvas()).toHsv())
+        jitter.setBase(Krita.instance().activeWindow().activeView()
+                       .foregroundColor().colorForCanvas(Krita.instance().activeWindow().activeView().canvas()).toHsv())
         print(jitter.base)
 
 
