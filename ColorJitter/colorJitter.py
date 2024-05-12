@@ -8,8 +8,58 @@ from krita import (DockWidget, DockWidgetFactory, DockWidgetFactoryBase,
 
 import colorsys as cs
 import random as r
+from enum import Enum
 
 instance = Krita.instance()
+
+
+class Formulae(Enum):
+    RANDOM = 0,
+    NORMAL = 1,
+    LINEARPOSITIVE = 3,
+    LINEARNEGATIVE = 4
+
+    def randomize(base, jitter, looped = 0): #Base and Jitter both floats
+        if looped:
+            return ((base + (float(r.randint(-int(jitter * 100), int(jitter * 100))) / 100)) % 1) + 0.01
+        else:
+            val =  (base + (float(r.randint(-int(jitter * 100), int(jitter * 100))) / 100))
+            if val > 1:
+                return 1 - ((val % 1) + 0.01)
+            if val < 0:
+                return -val
+            return val
+
+
+    def normal(base, jitter, looped = 0): #Base and Jitter both floats
+        df = 50
+        change = 0
+        change += float(r.randint(1, 100) / 100)
+        for i in range(0,df):
+            change += float(r.randint(1, 100) / 100)
+        change /= df + 1
+
+        change -= 0.5
+        print("perc change", change)
+
+        change *= float(jitter) * 2.0
+
+        
+        print("final change", change)
+        if looped:
+            return ((base + change) % 1) + 0.01
+        else:
+            val =  (base + change)
+            if val > 1:
+                return 1 - ((val % 1) + 0.01)
+            if val < 0:
+                return -val
+            return val
+        
+        
+
+
+formulae = [Formulae.randomize, Formulae.normal]
 
 
 class Jitter():
@@ -17,17 +67,18 @@ class Jitter():
     def __init__(self):
         self.base = [1.0, 1.0, 1.0]
         self.base_aph = 1
-        self.val_jitter = 0.25
-        self.hue_jitter = 0.25
-        self.sat_jitter = 0.25
+        self.val_jitter = 1.0
+        self.hue_jitter = 1.0
+        self.sat_jitter = 1.0
         self.aph_jitter = 1.0
 
         self.jitter_formulas = [
-            self.randomizeLooped,
-            self.randomize,
-            self.randomize,
-            self.randomize,
+            formulae[1],
+            formulae[1],
+            formulae[1],
+            formulae[1],
         ]
+
 
     def resetColor(self):
         print(self.base)
@@ -63,19 +114,12 @@ class Jitter():
         blue = as_rgb[2]
         comp = [blue, green, red, 1]
         managed_color.setComponents(comp)
+        print("final finals", comp)
 
         return managed_color
     
-    def randomizeLooped(self, base, jitter): #Base and Jitter both floats
-        return (base + (float(r.randint(-int(jitter * 100), int(jitter * 100))) / 100)) % 1 + 0.01
+            
     
-    def randomize(self, base, jitter): #Base and Jitter both floats
-        val =  (base + (float(r.randint(-int(jitter * 100), int(jitter * 100))) / 100))
-        if val > 1:
-            return 1
-        if val < 0:
-            return 0
-        return val
     
     def setBase(self, color): #Takes in a QColor
         self.base[0] = color.hsvHueF()
@@ -143,14 +187,12 @@ class ColorJitterEx(Extension):
         pass
 
     def resetColor(self):
-        #jitter.base = Krita.instance().activeWindow().activeView().foregroundColor()
-        #print(jitter.base)
         Krita.instance().activeWindow().activeView().setForeGroundColor(jitter.resetColor())
     
     def setAsBase(self):
         jitter.setBase(Krita.instance().activeWindow().activeView()
-                       .foregroundColor().colorForCanvas(Krita.instance().activeWindow().activeView().canvas()).toHsv())
-        print(jitter.base)
+                       .foregroundColor().colorForCanvas(Krita.instance().activeWindow().activeView().canvas())
+                       .toHsv())
 
 
 

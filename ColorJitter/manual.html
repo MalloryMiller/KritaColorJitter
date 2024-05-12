@@ -52,7 +52,12 @@
     <li>Random Hue changes</li>
     <li>Random Saturation changes</li>
     <li>Random Value changes</li>
+    <li>Normally distributed* Hue changes</li>
+    <li>Normally distributed* Saturation changes</li>
+    <li>Normally distributed* Value changes</li>
   </ul>
+  <p>*Normally distributed here is roughly approximate (numpy is a whole chore to import into Krita) and more closely resembles a t-distribution with 50 degrees of freedom (presumably normal by central limit theorem). Point is, it weighs the colors so that colors closer to your base are more likely than those farther away, but still allows those distant colors to be a possibility.</p>
+
 
   <h2>Setup</h2>
   <p><a href="https://github.com/MalloryMiller/KritaColorJitter"> The plugin can be downloaded from its github page.</a> </p>
