@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <body>
-  <a href="https://github.com/MalloryMiller/KritaColorJitter"><p align="center"> <img src="style.svg" alt="css-in-readme"> </p></a>
+  <a href="https://github.com/MalloryMiller/KritaColorJitter"><p align="center"> <img src="../style.svg" alt="css-in-readme"> </p></a>
   <p align="center">Intuitive color jittering for any brush.</p>
 
   <h2>Description</h2>
@@ -14,7 +15,12 @@
     <li>Random Hue changes</li>
     <li>Random Saturation changes</li>
     <li>Random Value changes</li>
+    <li>Normally distributed* Hue changes</li>
+    <li>Normally distributed* Saturation changes</li>
+    <li>Normally distributed* Value changes</li>
   </ul>
+  <p>*Normally distributed here is roughly approximate (numpy is a whole chore to import into Krita) and more closely resembles a t-distribution with 50 degrees of freedom (presumably normal by central limit theorem). Point is, it weighs the colors so that colors closer to your base are more likely than those farther away, but still allows those distant colors to be a possibility.</p>
+
 
   <h2>Setup</h2>
   <p><a href="https://github.com/MalloryMiller/KritaColorJitter"> The plugin can be downloaded from its github page.</a> </p>
@@ -29,8 +35,7 @@
   <p>If you find any issues using this plugin (which has only been well tested using the Linux 64-bit appimage version of the software on version 5.2.2), please submit an issue on its <a href="https://github.com/MalloryMiller/KritaColorJitter/issues">Github Issues page</a> with the "bug" label if you get the chance.</p>
 
   <h2>Credits</h2>
-  <p>I looked at <a href="https://github.com/EyeOdin/Pigment.O">Pigment.O</a> quite a bit as reference since it also dealt with colors and used the VSCode <a href="https://github.com/cg-cnu/vscode-krita-plugin-generator">Krita Plugin Generator</a> extension to generate a base for the plugin to build from.</p>
-
+  <p>I looked at <a href="https://github.com/EyeOdin/Pigment.O">Pigment.O</a> quite a bit as reference since it also dealt with colors and used the VSCode <a href="https://github.com/cg-cnu/vscode-krita-plugin-generator">Krita Plugin Generator</a> extension to generate a base to build from.</p>
 
 </body>
 
