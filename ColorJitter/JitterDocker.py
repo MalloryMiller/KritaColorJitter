@@ -23,14 +23,18 @@ class ColorJitter(DockWidget):
         mainWidget = QWidget(self)
         self.setWidget(mainWidget)
         mainWidget.setLayout(QVBoxLayout())
-        buttoncontrols = QWidget(mainWidget)
-        buttoncontrols.setLayout(QHBoxLayout())
 
         self.opts = self.setupOptions(mainWidget)
 
         for dists in formulaeNames:
             for options in self.opts:
                 options[2].addItem(dists)
+        for options in self.opts:
+            mainWidget.layout().addWidget(options[0])
+
+
+        buttoncontrols = QWidget(mainWidget)
+        buttoncontrols.setLayout(QHBoxLayout())
 
         self.newBaseColorButton = QPushButton("Set as Base", mainWidget)
         self.newBaseColorButton.clicked.connect(self.changeColor)
@@ -41,8 +45,6 @@ class ColorJitter(DockWidget):
         self.generateColorButton = QPushButton("New Color", mainWidget)
         self.generateColorButton.clicked.connect(self.newColor)
 
-        for options in self.opts:
-            mainWidget.layout().addWidget(options[0])
 
 
         buttoncontrols.layout().addWidget(self.newBaseColorButton)
@@ -56,6 +58,7 @@ class ColorJitter(DockWidget):
         Krita.instance().addExtension(self.extension)
 
 
+
     def setupOptions(self, mainWidget):
 
         return [self.generateOption("Hue", mainWidget), 
@@ -66,17 +69,26 @@ class ColorJitter(DockWidget):
     def generateOption(self, option, mainWidget):
 
         label = QLabel(option + " Variation %", self)
-        variation = QDoubleSpinBox()
         dist = QComboBox(self)
+
+        variation = QDoubleSpinBox()
+        variation.setMinimum(0)
+        variation.setMaximum(100)
+        variation.setSingleStep(5)
+
         opt = QWidget(mainWidget)
         opt.setLayout(QHBoxLayout())
         opt.layout().addWidget(label)
         opt.layout().addWidget(variation)
         opt.layout().addWidget(dist)
 
-        return [opt, variation, dist]
+        return [opt, variation, dist] #i love structs
 
 
+    def updateDistributions(self):
+        jitter.setDistributions([self.opts[0][2].currentIndex(),
+                                 self.opts[1][2].currentIndex(),
+                                 self.opts[2][2].currentIndex()])
 
 
     def canvasChanged(self, canvas):

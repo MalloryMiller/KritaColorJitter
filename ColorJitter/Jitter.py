@@ -65,18 +65,23 @@ class Jitter():
 
     def __init__(self):
         self.base = [1.0, 1.0, 1.0]
-        self.base_aph = 1
+        
         self.val_jitter = 0.5
         self.hue_jitter = 0.5
         self.sat_jitter = 0.5
-        self.aph_jitter = 0.5
 
         self.jitter_formulas = [
-            formulae[1],
-            formulae[1],
-            formulae[1],
-            formulae[1],
+            formulae[0],
+            formulae[0],
+            formulae[0],
         ]
+
+
+    def setDistributions(self, newIndexes):
+        #newIndexes contains a list of indices that correlate to positions in the formlae list respectively
+        self.jitter_formulas = [formulae[newIndexes[0]], #H
+                                formulae[newIndexes[1]], #S
+                                formulae[newIndexes[2]]] #V
 
 
     def resetColor(self):
