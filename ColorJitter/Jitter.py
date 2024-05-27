@@ -14,9 +14,13 @@ class Formulae(Enum):
 
     def randomize(base, jitter, looped = 0): #Base and Jitter both floats
         if looped:
-            return ((base + (float(r.randint(-int(jitter * 100), int(jitter * 100))) / 100)) % 1) + 0.01
+            return ((base + (float(r.randint(-int(jitter * 100), 
+                                             int(jitter * 100))) / 100)) % 1) + 0.01
+        
         else:
-            val =  (base + (float(r.randint(-int(jitter * 100), int(jitter * 100))) / 100))
+            val =  (base + (float(r.randint(-int(jitter * 100), 
+                                            int(jitter * 100))) / 100))
+            
             if val > 1:
                 return 1 - ((val % 1) + 0.01)
             if val < 0:
@@ -30,13 +34,13 @@ class Formulae(Enum):
         change += float(r.randint(1, 200))
         for i in range(0,df):
             change += float(r.randint(1, 200))
-        change /= df + 1
-        change -= 100
-        change /= 20
+        change /= df + 1 # gets average (should be normal w mean of 100)
+        change -= 100 # adjust for negatives to make mean 0
+        change /= 20 # adjust standard dev
 
         print(change)
 
-        change *= float(jitter) * 2.0 #since each jitter is only half
+        change *= float(jitter) #since each jitter is only half
 
         
         if looped:
@@ -53,6 +57,7 @@ class Formulae(Enum):
 
 
 formulae = [Formulae.randomize, Formulae.normal]
+formulaeNames = ["Random", "Normal"]
 
 
 
@@ -61,10 +66,10 @@ class Jitter():
     def __init__(self):
         self.base = [1.0, 1.0, 1.0]
         self.base_aph = 1
-        self.val_jitter = 1.0
-        self.hue_jitter = 1.0
-        self.sat_jitter = 1.0
-        self.aph_jitter = 1.0
+        self.val_jitter = 0.5
+        self.hue_jitter = 0.5
+        self.sat_jitter = 0.5
+        self.aph_jitter = 0.5
 
         self.jitter_formulas = [
             formulae[1],
