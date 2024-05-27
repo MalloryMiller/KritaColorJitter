@@ -22,10 +22,11 @@ class Formulae(Enum):
                                             int(jitter * 100))) / 100))
             
             if val > 1:
-                return 1 - ((val % 1) + 0.01)
+                return 1 - jitter - ((val % 1) + 0.01)
             if val < 0:
-                return -val
+                return jitter + val
             return val
+
 
 
     def normal(base, jitter, looped = 0): #Base and Jitter both floats
@@ -66,9 +67,9 @@ class Jitter():
     def __init__(self):
         self.base = [1.0, 1.0, 1.0]
         
-        self.val_jitter = 0.5
-        self.hue_jitter = 0.5
-        self.sat_jitter = 0.5
+        self.val_jitter = 0.0
+        self.hue_jitter = 0.0
+        self.sat_jitter = 0.0
 
         self.jitter_formulas = [
             formulae[0],
@@ -82,6 +83,11 @@ class Jitter():
         self.jitter_formulas = [formulae[newIndexes[0]], #H
                                 formulae[newIndexes[1]], #S
                                 formulae[newIndexes[2]]] #V
+
+    def setRanges(self, newRanges):
+        self.hue_jitter = newRanges[0]
+        self.sat_jitter = newRanges[1]
+        self.val_jitter = newRanges[2]
 
 
     def resetColor(self):

@@ -56,6 +56,7 @@ class ColorJitter(DockWidget):
 
         self.extension = ColorJitterEx(parent=Krita.instance())
         Krita.instance().addExtension(self.extension)
+        
 
 
 
@@ -68,13 +69,15 @@ class ColorJitter(DockWidget):
 
     def generateOption(self, option, mainWidget):
 
-        label = QLabel(option + " Variation %", self)
+        label = QLabel(option + " Range %", self)
         dist = QComboBox(self)
+        dist.currentIndexChanged.connect(self.updateDistributions)
 
         variation = QDoubleSpinBox()
         variation.setMinimum(0)
         variation.setMaximum(100)
         variation.setSingleStep(5)
+        variation.valueChanged.connect(self.updateRanges)
 
         opt = QWidget(mainWidget)
         opt.setLayout(QHBoxLayout())
@@ -85,14 +88,22 @@ class ColorJitter(DockWidget):
         return [opt, variation, dist] #i love structs
 
 
-    def updateDistributions(self):
+
+    def updateDistributions(self, new_val):
+        #ignore which one was changed, newe_val, and update all
         jitter.setDistributions([self.opts[0][2].currentIndex(),
                                  self.opts[1][2].currentIndex(),
                                  self.opts[2][2].currentIndex()])
+        
+    def updateRanges(self):
+        jitter.setRanges([self.opts[0][1].value() / 100,
+                          self.opts[1][1].value() / 100,
+                          self.opts[2][1].value() / 100])
 
 
     def canvasChanged(self, canvas):
         try:
+            self.changeColor() #initialize to current color
             qwin = Krita.instance().activeWindow().qwindow()
             wobj = qwin.findChild(QTableView,'paletteBox')
             wobj.selectionModel().currentChanged.connect(self.changeColor)
@@ -119,9 +130,7 @@ class ColorJitter(DockWidget):
     def newBaseColor(self):
         print("color AUTOMATICALLY changed.")
         if self.active:
-            jitter.setBase(Krita.instance().activeWindow().activeView()
-                        .foregroundColor().colorForCanvas(Krita.instance().activeWindow().activeView().canvas())
-                        .toHsv())
+            self.changeColor()
 
     @pyqtSlot()
     def resetColor(self):
