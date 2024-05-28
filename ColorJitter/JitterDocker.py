@@ -20,10 +20,11 @@ class ColorJitter(DockWidget):
         mainWidget = QWidget(self)
         self.setWidget(mainWidget)
         mainWidget.setLayout(QVBoxLayout())
+        self.setup_complete = False
 
-        self.setupButtons(mainWidget)
-        self.setupOptions(mainWidget)
         self.setupGenerationCheck(mainWidget)
+        self.setupOptions(mainWidget)
+        self.setupButtons(mainWidget)
 
         self.extension = ColorJitterEx(parent=Krita.instance())
         Krita.instance().addExtension(self.extension)
@@ -41,14 +42,9 @@ class ColorJitter(DockWidget):
         self.resetColorButton = QPushButton("Reset to Base", mainWidget)
         self.resetColorButton.clicked.connect(self.resetColor)
 
-        self.generateColorButton = QPushButton("New Color", mainWidget)
-        self.generateColorButton.clicked.connect(self.newColor)
-
-
 
         buttoncontrols.layout().addWidget(self.newBaseColorButton)
         buttoncontrols.layout().addWidget(self.resetColorButton)
-        mainWidget.layout().addWidget(self.generateColorButton)
         mainWidget.layout().addWidget(buttoncontrols)
         
 
@@ -64,6 +60,7 @@ class ColorJitter(DockWidget):
         for dists in formulaeNames:
             for opt in self.opts:
                 opt[1].addItem(dists)
+        options.layout().setVerticalSpacing(0)
 
         mainWidget.layout().addWidget(options)
 
@@ -113,7 +110,17 @@ class ColorJitter(DockWidget):
             self.resetColor()
 
         else:
+            self.changeColor()
             self.newColor()
+            if not self.setup_complete:
+                try:
+                    self.setupGeneration()
+                    print("Color change listener attached.")
+                    self.setup_complete = True
+
+                except:
+                    print("Couldn't attach color change listener.")
+                    pass
         
         self.active = not self.active
 
@@ -133,12 +140,7 @@ class ColorJitter(DockWidget):
 
 
     def canvasChanged(self, canvas):
-        try:
-            self.setupGeneration()
-            print("Color change listener attached.")
-        except:
-            print("Couldn't attach color change listener.")
-            pass
+        pass
 
 
     #def mousePressEvent(self, event):

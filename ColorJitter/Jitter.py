@@ -66,6 +66,7 @@ class Jitter():
 
     def __init__(self):
         self.base = [1.0, 1.0, 1.0]
+        self.last_jitter = None
         
         self.val_jitter = 0.0
         self.hue_jitter = 0.0
@@ -105,6 +106,14 @@ class Jitter():
         managed_color.setComponents(comp)
 
         return managed_color
+    
+    def isUninterupted(self, newColor):
+        match = True
+
+        for x in range(0, 3):
+            match = match and self.last_jitter[x] == newColor[x]
+
+        return match
     
 
     def newColor(self):
