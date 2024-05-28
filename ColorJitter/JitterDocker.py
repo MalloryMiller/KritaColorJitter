@@ -1,9 +1,6 @@
-from krita import (DockWidget, DockWidgetFactory, DockWidgetFactoryBase,
-                   QLabel, QComboBox, QDoubleSpinBox,
-                   QDockWidget, QHBoxLayout, QLayout, QMainWindow,
-                   QPushButton, QStyle, QStyleOptionDockWidget,
-                   QStyleOptionToolButton, QStylePainter, QWidget, QColor,
-                   Extension, pyqtSlot, QVBoxLayout, QTableView)
+from krita import (DockWidget, DockWidgetFactory, DockWidgetFactoryBase, Extension,
+                   QLabel, QComboBox, QCheckBox, QDoubleSpinBox, QPushButton, QListView,
+                   QObject, QHBoxLayout, QVBoxLayout, QGridLayout, QWidget, QScrollArea, pyqtSlot)
 
 from .Jitter import Jitter, formulaeNames
 
@@ -24,13 +21,15 @@ class ColorJitter(DockWidget):
         self.setWidget(mainWidget)
         mainWidget.setLayout(QVBoxLayout())
 
-        self.opts = self.setupOptions(mainWidget)
+        self.setupButtons(mainWidget)
+        self.setupOptions(mainWidget)
+        self.setupGenerationCheck(mainWidget)
 
-        for dists in formulaeNames:
-            for options in self.opts:
-                options[2].addItem(dists)
-        for options in self.opts:
-            mainWidget.layout().addWidget(options[0])
+        self.extension = ColorJitterEx(parent=Krita.instance())
+        Krita.instance().addExtension(self.extension)
+        
+
+    def setupButtons(self, mainWidget):
 
 
         buttoncontrols = QWidget(mainWidget)
@@ -49,27 +48,48 @@ class ColorJitter(DockWidget):
 
         buttoncontrols.layout().addWidget(self.newBaseColorButton)
         buttoncontrols.layout().addWidget(self.resetColorButton)
-        buttoncontrols.layout().addWidget(self.generateColorButton)
+        mainWidget.layout().addWidget(self.generateColorButton)
         mainWidget.layout().addWidget(buttoncontrols)
-
-        self.active = False
-
-        self.extension = ColorJitterEx(parent=Krita.instance())
-        Krita.instance().addExtension(self.extension)
         
 
 
-
     def setupOptions(self, mainWidget):
+        options = QWidget(mainWidget)
+        options.setLayout(QGridLayout())
 
-        return [self.generateOption("Hue", mainWidget), 
-                self.generateOption("Saturation", mainWidget), 
-                self.generateOption("Value", mainWidget)]
+        self.opts = [self.generateOption("Hue", options, 0), 
+                    self.generateOption("Saturation", options, 1), 
+                    self.generateOption("Value", options, 2)]
+        
+        for dists in formulaeNames:
+            for opt in self.opts:
+                opt[1].addItem(dists)
+
+        mainWidget.layout().addWidget(options)
+
+
+
+    def setupGenerationCheck(self, mainWidget):
+
+        checkbos = QWidget(mainWidget)
+        checkbos.setLayout(QHBoxLayout())
+        generateLabel = QLabel("Stroke Color Jitter: ", checkbos)
+        self.autoGenerate = QCheckBox(checkbos)
+        checkbos.layout().addWidget(generateLabel)
+        checkbos.layout().addWidget(self.autoGenerate)
+        mainWidget.layout().addWidget(checkbos)
+        self.autoGenerate.stateChanged.connect(self.toggleGeneration)
+
+        self.active = False
+        
+
+
     
 
-    def generateOption(self, option, mainWidget):
+    def generateOption(self, option, optionWidget, index):
 
-        label = QLabel(option + " Range %", self)
+        label = QLabel(option + " Range:", self)
+        padd = QLabel("\n\n", self)
         dist = QComboBox(self)
         dist.currentIndexChanged.connect(self.updateDistributions)
 
@@ -77,37 +97,44 @@ class ColorJitter(DockWidget):
         variation.setMinimum(0)
         variation.setMaximum(100)
         variation.setSingleStep(5)
+        variation.setSuffix("%")
         variation.valueChanged.connect(self.updateRanges)
 
-        opt = QWidget(mainWidget)
-        opt.setLayout(QHBoxLayout())
-        opt.layout().addWidget(label)
-        opt.layout().addWidget(variation)
-        opt.layout().addWidget(dist)
+        optionWidget.layout().addWidget(label, index * 2, 0)
+        optionWidget.layout().addWidget(padd, (index * 2) + 1, 0)
+        optionWidget.layout().addWidget(variation, index * 2, 1)
+        optionWidget.layout().addWidget(dist, (index * 2) + 1, 1)
 
-        return [opt, variation, dist] #i love structs
+        return [variation, dist] #i love structs
+    
+
+    def toggleGeneration(self):
+        if self.active:
+            self.resetColor()
+
+        else:
+            self.newColor()
+        
+        self.active = not self.active
+
 
 
 
     def updateDistributions(self, new_val):
         #ignore which one was changed, newe_val, and update all
-        jitter.setDistributions([self.opts[0][2].currentIndex(),
-                                 self.opts[1][2].currentIndex(),
-                                 self.opts[2][2].currentIndex()])
+        jitter.setDistributions([self.opts[0][1].currentIndex(),
+                                 self.opts[1][1].currentIndex(),
+                                 self.opts[2][1].currentIndex()])
         
     def updateRanges(self):
-        jitter.setRanges([self.opts[0][1].value() / 100,
-                          self.opts[1][1].value() / 100,
-                          self.opts[2][1].value() / 100])
+        jitter.setRanges([self.opts[0][0].value() / 100,
+                          self.opts[1][0].value() / 100,
+                          self.opts[2][0].value() / 100])
 
 
     def canvasChanged(self, canvas):
         try:
-            self.changeColor() #initialize to current color
-            qwin = Krita.instance().activeWindow().qwindow()
-            wobj = qwin.findChild(QTableView,'paletteBox')
-            wobj.selectionModel().currentChanged.connect(self.changeColor)
-            
+            self.setupGeneration()
             print("Color change listener attached.")
         except:
             print("Couldn't attach color change listener.")
@@ -125,6 +152,24 @@ class ColorJitter(DockWidget):
     #        Krita.instance().action('mirror_canvas').trigger()
     #        self.active = False
     #    pass
+
+    def generate(self):
+        if self.active:
+            self.newColor()
+
+
+
+    # this function is almost entirely from https://krita-artists.org/t/how-can-i-listen-to-foregroundcolorchanged/40889/13
+    # bless you seguso, you da bomb
+
+    def setupGeneration(self):
+        history_docker = next((d for d in Krita.instance().dockers() if d.objectName() == 'History'), None)
+        kis_undo_view = next((v for v in history_docker.findChildren(QListView) if v.metaObject().className() == 'KisUndoView'), None)
+        s_model = kis_undo_view.selectionModel()
+        s_model.currentChanged.connect(self.generate)
+                
+
+
 
     @pyqtSlot()
     def newBaseColor(self):
