@@ -40,11 +40,13 @@
 
   <h2>Dependencies</h2>
   <p>Check if you have a version of Krita that this plugin will work for:</p>
-  <input type="checkbox" checked disabled> Linux 64-bit appimage (5.2.2)
-  <br>
-  <input type="checkbox" disabled> Windows 11 (untested)
-  <br>
-  <input type="checkbox" disabled> MacOS (untested)
+
+✅ Linux 64-bit appimage (5.2.2)
+ 
+⬜  Windows 11 (untested)
+ 
+⬜  MacOS (untested)
+
   <p> I haven't tested this plugin on everything, so even if it's not on this list feel free to try it out and let me know if it works or if you run into any issues! There shouldn't be any other dependencies.</p>
 
 
