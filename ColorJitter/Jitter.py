@@ -5,7 +5,7 @@ import random as r
 from enum import Enum
 
 
-NEW_COLOR_SENSITIVITY = 0.01
+NEW_COLOR_THRESHHOLD = 0.1
 
 
 
@@ -25,9 +25,9 @@ class Formulae(Enum):
                                             int(jitter * 100))) / 100))
             
             if val > 1:
-                return 1 - jitter - ((val % 1) + 0.01)
+                return 1 - ((val % 1) + 0.01)
             if val < 0:
-                return jitter + val
+                return -val % 1
             return val
 
 
@@ -54,7 +54,7 @@ class Formulae(Enum):
             if val > 1:
                 return 1 - ((val % 1) + 0.01)
             if val < 0:
-                return -val
+                return -val % 1
             return val
         
         
@@ -71,9 +71,9 @@ class Jitter():
         self.base = [1.0, 1.0, 1.0]
         self.last_jitter = None
         
-        self.val_jitter = 0.0
-        self.hue_jitter = 0.0
-        self.sat_jitter = 0.0
+        self.val_jitter = 0.125
+        self.hue_jitter = 0.125
+        self.sat_jitter = 0.125
 
         self.jitter_formulas = [
             formulae[0],
@@ -122,10 +122,14 @@ class Jitter():
     def newColor(self, current_color): #Takes in a QColor
 
         if self.last_jitter == None and not current_color == None or \
-            (abs(current_color.hsvHueF() - self.last_jitter[0]) > NEW_COLOR_SENSITIVITY or
-            abs(current_color.saturationF() - self.last_jitter[1]) > NEW_COLOR_SENSITIVITY or
-            abs(current_color.valueF() - self.last_jitter[2]) > NEW_COLOR_SENSITIVITY): #detects when a new color is selected...
+            (abs(current_color.hsvHueF() - self.last_jitter[0]) > (NEW_COLOR_THRESHHOLD) or
+            abs(current_color.saturationF() - self.last_jitter[1]) > (NEW_COLOR_THRESHHOLD) or
+            abs(current_color.valueF() - self.last_jitter[2]) > (NEW_COLOR_THRESHHOLD)): #detects when a new color is selected...
             
+            print(current_color.hsvHueF())
+            print(current_color.saturationF())
+            print(current_color.valueF())
+            print(self.last_jitter)
             print("Detected Color Switch")
             self.setBase(current_color)
 

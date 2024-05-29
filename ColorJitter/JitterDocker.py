@@ -92,8 +92,9 @@ class ColorJitter(DockWidget):
 
         variation = QDoubleSpinBox()
         variation.setMinimum(0)
-        variation.setMaximum(100)
+        variation.setMaximum(200)
         variation.setSingleStep(5)
+        variation.setValue(25)
         variation.setSuffix("%")
         variation.valueChanged.connect(self.updateRanges)
 
