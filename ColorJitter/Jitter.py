@@ -5,6 +5,9 @@ import random as r
 from enum import Enum
 
 
+NEW_COLOR_SENSITIVITY = 0.01
+
+
 
 class Formulae(Enum):
     RANDOM = 0,
@@ -116,14 +119,23 @@ class Jitter():
         return match
     
 
-    def newColor(self):
-        
+    def newColor(self, current_color): #Takes in a QColor
+
+        if self.last_jitter == None and not current_color == None or \
+            (abs(current_color.hsvHueF() - self.last_jitter[0]) > NEW_COLOR_SENSITIVITY or
+            abs(current_color.saturationF() - self.last_jitter[1]) > NEW_COLOR_SENSITIVITY or
+            abs(current_color.valueF() - self.last_jitter[2]) > NEW_COLOR_SENSITIVITY): #detects when a new color is selected...
+            
+            print("Detected Color Switch")
+            self.setBase(current_color)
+
         depth = Krita.instance().activeDocument().colorDepth()
 
-        
-        as_rgb = cs.hsv_to_rgb(self.jitter_formulas[0](self.base[0], self.hue_jitter / 2),
-                               self.jitter_formulas[1](self.base[1], self.sat_jitter / 2),
-                               self.jitter_formulas[2](self.base[2], self.val_jitter / 2))
+        self.last_jitter = [self.jitter_formulas[0](self.base[0], self.hue_jitter / 2),
+                            self.jitter_formulas[1](self.base[1], self.sat_jitter / 2),
+                            self.jitter_formulas[2](self.base[2], self.val_jitter / 2)]
+                
+        as_rgb = cs.hsv_to_rgb(self.last_jitter[0], self.last_jitter[1], self.last_jitter[2])
 
         managed_color = ManagedColor("RGBA", depth, "")
         comp = managed_color.components()
@@ -133,13 +145,15 @@ class Jitter():
         comp = [blue, green, red, 1]
         managed_color.setComponents(comp)
 
-        return managed_color
-    
             
-    
-    
+
+        return managed_color
+
+
+
     def setBase(self, color): #Takes in a QColor
         self.base[0] = color.hsvHueF()
         self.base[1] = color.saturationF()
         self.base[2] = color.valueF()
+        self.last_jitter = self.base
 

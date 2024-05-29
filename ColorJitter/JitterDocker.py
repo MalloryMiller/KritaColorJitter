@@ -1,6 +1,6 @@
 from krita import (DockWidget, DockWidgetFactory, DockWidgetFactoryBase, Extension,
                    QLabel, QComboBox, QCheckBox, QDoubleSpinBox, QPushButton, QListView,
-                   QObject, QHBoxLayout, QVBoxLayout, QGridLayout, QWidget, QScrollArea, pyqtSlot)
+                   QHBoxLayout, QVBoxLayout, QGridLayout, QWidget, pyqtSlot)
 
 from .Jitter import Jitter, formulaeNames
 
@@ -24,7 +24,7 @@ class ColorJitter(DockWidget):
 
         self.setupGenerationCheck(mainWidget)
         self.setupOptions(mainWidget)
-        self.setupButtons(mainWidget)
+        #self.setupButtons(mainWidget) # might be cluttery
 
         self.extension = ColorJitterEx(parent=Krita.instance())
         Krita.instance().addExtension(self.extension)
@@ -36,15 +36,15 @@ class ColorJitter(DockWidget):
         buttoncontrols = QWidget(mainWidget)
         buttoncontrols.setLayout(QHBoxLayout())
 
-        self.newBaseColorButton = QPushButton("Set as Base", mainWidget)
-        self.newBaseColorButton.clicked.connect(self.changeColor)
+        newBaseColorButton = QPushButton("Set as Base", mainWidget)
+        newBaseColorButton.clicked.connect(self.changeColor)
 
-        self.resetColorButton = QPushButton("Reset to Base", mainWidget)
-        self.resetColorButton.clicked.connect(self.resetColor)
+        resetColorButton = QPushButton("Reset to Base", mainWidget)
+        resetColorButton.clicked.connect(self.resetColor)
 
 
-        buttoncontrols.layout().addWidget(self.newBaseColorButton)
-        buttoncontrols.layout().addWidget(self.resetColorButton)
+        buttoncontrols.layout().addWidget(newBaseColorButton)
+        buttoncontrols.layout().addWidget(resetColorButton)
         mainWidget.layout().addWidget(buttoncontrols)
         
 
@@ -71,11 +71,11 @@ class ColorJitter(DockWidget):
         checkbos = QWidget(mainWidget)
         checkbos.setLayout(QHBoxLayout())
         generateLabel = QLabel("Stroke Color Jitter: ", checkbos)
-        self.autoGenerate = QCheckBox(checkbos)
+        autoGenerate = QCheckBox(checkbos)
         checkbos.layout().addWidget(generateLabel)
-        checkbos.layout().addWidget(self.autoGenerate)
+        checkbos.layout().addWidget(autoGenerate)
         mainWidget.layout().addWidget(checkbos)
-        self.autoGenerate.stateChanged.connect(self.toggleGeneration)
+        autoGenerate.stateChanged.connect(self.toggleGeneration)
 
         self.active = False
         
@@ -172,13 +172,6 @@ class ColorJitter(DockWidget):
                 
 
 
-
-    @pyqtSlot()
-    def newBaseColor(self):
-        print("color AUTOMATICALLY changed.")
-        if self.active:
-            self.changeColor()
-
     @pyqtSlot()
     def resetColor(self):
         self.extension.resetColor()
@@ -222,7 +215,7 @@ class ColorJitterEx(Extension):
 
 
     def newColor(self):
-        Krita.instance().activeWindow().activeView().setForeGroundColor(jitter.newColor())
+        Krita.instance().activeWindow().activeView().setForeGroundColor(jitter.newColor(self.activeColor()))
         pass
 
 
@@ -231,9 +224,11 @@ class ColorJitterEx(Extension):
     
     
     def changeColor(self):
-        jitter.setBase(Krita.instance().activeWindow().activeView()
-                       .foregroundColor().colorForCanvas(Krita.instance().activeWindow().activeView().canvas())
-                       .toHsv())
+        jitter.setBase(self.activeColor())
+        
+    def activeColor(self):
+        return Krita.instance().activeWindow().activeView().foregroundColor().colorForCanvas(
+            Krita.instance().activeWindow().activeView().canvas()).toHsv()
 
 
 
