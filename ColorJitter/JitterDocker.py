@@ -183,7 +183,6 @@ class ColorJitter(DockWidget):
 
     @pyqtSlot()
     def changeColor(self):
-        print("color changed.")
         self.extension.changeColor()
 
 
@@ -202,7 +201,7 @@ class ColorJitterEx(Extension):
         super().__init__(parent)
 
     def setup(self):
-        print("Colorsetup running...")
+        print("Color jitter setup running...")
         
 
     def createActions(self, window):
