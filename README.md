@@ -14,9 +14,9 @@
   <h2>Setup</h2>
   <p>Check if you have a version of Krita that this plugin will work for:</p>
 
-✅ Linux 64-bit appimage (5.2.2)
+✅ Linux 64-bit appimage 5.2.2
  
-⬜  Windows 11 (untested)
+⚠️  Windows 11 (known issue with slightly drifting base color, otherwise functional)
  
 ⬜  MacOS (untested)
 
