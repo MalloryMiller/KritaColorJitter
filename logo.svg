@@ -17,7 +17,19 @@
     text-align: center;
     font-size: 56px;
     width: 100%;
+    transition: all 0.1s ease;
                 
+
+    }
+
+    a:hover {
+    animation: rgb 3s linear infinite;
+
+    }
+
+    @keyframes rgb {
+      0%   {filter: hue-rotate(0deg);}
+      100% {filter: hue-rotate(360deg);}
     }
             </style>
             <a>ColorJitter</a>

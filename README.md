@@ -10,35 +10,8 @@
   <p>This plugin endeavors to allow color jitter, also sometimes called color dynamics, in Krita. While there is a way to create stamps <a href="https://www.youtube.com/watch?v=-WSQvjhjT3o">where each stamp is a slightly different color</a>, I could find no way to allow a brush to change color slightly with each stroke with the extensibility that other art programs do in default Krita.</p>
   <p>With color jittering active, every stroke (or fill tool) you make will have a slightly different color. While active, color jittering allows for effortlessly subtle hue, value, and saturation variation without needing to reswatch colors for every single stroke.</p>
 
-  <h2>Features</h2>
-  <ul>
-    <li>Toggle generating colors after each stroke</li>
-    <li>Automatically sets the base color when a user picks a new color</li>
-    <li>Hue jitter</li>
-    <ul>
-      <li>Random</li>
-      <li>Normally distributed*</li>
-    </ul>
-    <li>Saturation jitter</li>
-    <ul>
-      <li>Random</li>
-      <li>Normally distributed*</li>
-    </ul>
-    <li>Value jitter</li>
-    <ul>
-      <li>Random</li>
-      <li>Normally distributed*</li>
-    </ul>
-    <li>Configurable shortcuts</li>
-    <ul>
-      <li>Generate new color (Ctrl+Alt+A)</li>
-      <li>Return to Base Color (Ctrl+Alt+Z)</li>
-      <li>Set as Base Color (Ctrl+Alt+X)</li>
-    </ul>
-  </ul>
-  <p>*Normally distributed here is roughly approximate (numpy is a whole chore to import into Krita) and more closely resembles a t-distribution with 50 degrees of freedom (presumably normal by central limit theorem). Point is, it weighs the colors so that colors closer to your base are more likely than those farther away, but still allows some distant colors to be a possibility.</p>
 
-  <h2>Dependencies</h2>
+  <h2>Setup</h2>
   <p>Check if you have a version of Krita that this plugin will work for:</p>
 
 ✅ Linux 64-bit appimage (5.2.2)
@@ -48,9 +21,6 @@
 ⬜  MacOS (untested)
 
   <p> I haven't tested this plugin on everything, so even if it's not on this list feel free to try it out and let me know if it works or if you run into any issues! There shouldn't be any other dependencies.</p>
-
-
-  <h2>Setup</h2>
   <p><a href="https://github.com/MalloryMiller/KritaColorJitter"> The plugin can be downloaded from its github page.</a> </p>
   <p>From that page, click the blue "Code" button and then "Download ZIP." In Krita, go to the bar at the top and navigate to "Tools" > "Scripts" > "Import Python Plugin From File." After clicking on that, find the downloaded .zip file and select it.</p>
   <p>The added plugin may be automatically turned on, but go to "Settings" > "Configure Krita" and scroll to the bottom of the left pannel to find "Python Plugin Manager." Ensure that ColorJitter is checked off there. If ColorJitter seems not to be working at this point, close and reopen Krita.</p>

@@ -122,13 +122,11 @@ class Jitter():
     def newColor(self, current_color): #Takes in a QColor
 
         if self.last_jitter == None and not current_color == None or \
-            (abs(current_color.hsvHueF() - self.last_jitter[0]) > (NEW_COLOR_THRESHHOLD) or
-            abs(current_color.saturationF() - self.last_jitter[1]) > (NEW_COLOR_THRESHHOLD) or
-            abs(current_color.valueF() - self.last_jitter[2]) > (NEW_COLOR_THRESHHOLD)): #detects when a new color is selected...
+            (abs(current_color.redF() - self.last_jitter[2]) > (NEW_COLOR_THRESHHOLD) or
+            abs(current_color.greenF() - self.last_jitter[1]) > (NEW_COLOR_THRESHHOLD) or
+            abs(current_color.blueF() - self.last_jitter[0]) > (NEW_COLOR_THRESHHOLD)): #detects when a new color is selected...
             
-            print(current_color.hsvHueF())
-            print(current_color.saturationF())
-            print(current_color.valueF())
+            print([current_color.redF(), current_color.greenF(), current_color.blueF()])
             print(self.last_jitter)
             print("Detected Color Switch")
             self.setBase(current_color)
@@ -149,6 +147,8 @@ class Jitter():
         comp = [blue, green, red, 1]
         managed_color.setComponents(comp)
 
+        self.last_jitter = managed_color.components()
+
             
 
         return managed_color
@@ -156,8 +156,9 @@ class Jitter():
 
 
     def setBase(self, color): #Takes in a QColor
+        self.last_jitter = self.base
+        color = color
         self.base[0] = color.hsvHueF()
         self.base[1] = color.saturationF()
         self.base[2] = color.valueF()
-        self.last_jitter = self.base
 

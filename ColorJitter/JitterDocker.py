@@ -229,7 +229,7 @@ class ColorJitterEx(Extension):
         
     def activeColor(self):
         return Krita.instance().activeWindow().activeView().foregroundColor().colorForCanvas(
-            Krita.instance().activeWindow().activeView().canvas()).toHsv()
+            Krita.instance().activeWindow().activeView().canvas())
 
 
 
