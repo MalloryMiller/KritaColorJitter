@@ -21,8 +21,7 @@
 ⬜  MacOS (untested)
 
   <p> I haven't tested this plugin on everything, so even if it's not on this list feel free to try it out and let me know if it works or if you run into any issues! There shouldn't be any other dependencies.</p>
-  <p><a href="https://github.com/MalloryMiller/KritaColorJitter"> The plugin can be downloaded from its github page.</a> </p>
-  <p>From that page, click the blue "Code" button and then "Download ZIP." In Krita, go to the bar at the top and navigate to "Tools" > "Scripts" > "Import Python Plugin From File." After clicking on that, find the downloaded .zip file and select it.</p>
+  <p>From this page, scroll up and click the blue "Code" button and then "Download ZIP." In Krita, go to the bar at the top and navigate to "Tools" > "Scripts" > "Import Python Plugin From File." After clicking on that, find the downloaded .zip file and select it.</p>
   <p>The added plugin may be automatically turned on, but go to "Settings" > "Configure Krita" and scroll to the bottom of the left pannel to find "Python Plugin Manager." Ensure that ColorJitter is checked off there. If ColorJitter seems not to be working at this point, close and reopen Krita.</p>
 
 
