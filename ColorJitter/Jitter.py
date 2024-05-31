@@ -201,9 +201,9 @@ class Jitter():
         '''
 
         if self.last_jitter == None and not current_color == None or \
-            (abs(current_color.redF() - self.last_jitter[2]) > (NEW_COLOR_THRESHHOLD) or
+            (abs(current_color.redF() - self.last_jitter[0]) > (NEW_COLOR_THRESHHOLD) or
             abs(current_color.greenF() - self.last_jitter[1]) > (NEW_COLOR_THRESHHOLD) or
-            abs(current_color.blueF() - self.last_jitter[0]) > (NEW_COLOR_THRESHHOLD)): #detects when a new color is selected...
+            abs(current_color.blueF() - self.last_jitter[2]) > (NEW_COLOR_THRESHHOLD)): #detects when a new color is selected...
             
             print("Detected Color Switch")
             self.setBase(current_color)
