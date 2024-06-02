@@ -11,7 +11,7 @@ import random as r
 from enum import Enum
 
 
-NEW_COLOR_THRESHHOLD = 0.001
+NEW_COLOR_THRESHHOLD = 0.05 # 5% change needed, too much error for exact recording
 
 
 
@@ -172,7 +172,7 @@ class Jitter():
 
         depth = Krita.instance().activeDocument().colorDepth()
 
-        self.last_jitter = [self.jitter_formulas[0](self.base[0], self.hue_jitter / 2),
+        self.last_jitter = [self.jitter_formulas[0](self.base[0], self.hue_jitter / 2, looped=True),
                             self.jitter_formulas[1](self.base[1], self.sat_jitter / 2),
                             self.jitter_formulas[2](self.base[2], self.val_jitter / 2)] # halved to account for above/below
                 
