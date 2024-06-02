@@ -11,7 +11,7 @@ import random as r
 from enum import Enum
 
 
-NEW_COLOR_THRESHHOLD = 0.001
+NEW_COLOR_THRESHHOLD = 0.5
 
 
 
