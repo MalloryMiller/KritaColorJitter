@@ -1,0 +1,38 @@
+<svg fill="none" viewBox="0 0 250 60" width="250" height="60" xmlns="http://www.w3.org/2000/svg">
+    <foreignObject width="100%" height="100%">
+        <div xmlns="http://www.w3.org/1999/xhtml">
+            <style>
+    /* Shout-out to http://bettermotherfuckingwebsite.com/ for this CSS */
+    h1,
+    a {
+
+    background: linear-gradient(to right, #ef5350, #e46b01, #a1d718, #2196f3, #135cee, #0015d4, #4e24b6, #8f11ae);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-width: 0px;
+    border-bottom: 3px;
+    border-style:solid;
+    border-image-repeat: stretch;
+    border-image: linear-gradient(to right, #ef5350, #e46b01, #3db51c, #2196f3, #135cee, #0015d4, #4e24b6, #8f11ae) 4;
+    text-align: center;
+    font-size: 56px;
+    width: 100%;
+    transition: all 0.1s ease;
+                
+
+    }
+
+    a:hover {
+    animation: rgb 3s linear infinite;
+
+    }
+
+    @keyframes rgb {
+      0%   {filter: hue-rotate(0deg);}
+      100% {filter: hue-rotate(360deg);}
+    }
+            </style>
+            <a>ColorJitter</a>
+        </div>
+    </foreignObject>
+</svg>
