@@ -14,15 +14,15 @@
   <h2>Setup</h2>
   <p>Check if you have a version of Krita that this plugin will work for:</p>
 
-✅ Linux 64-bit appimage 5.2.2
+✅ Linux, Ubuntu (64-bit Krita appimage 5.2.2)
  
-✅  Windows 11 5.2.2
- 
-⬜  MacOS (untested)
+✅  Windows 11 (64-bit Krita 5.2.2)
 
-  <p>This plugin has only been tested with the newest versions of Krita, but that doesn't mean it won't work in other versions. Even if it's not on this list feel free to try it out and let me know if it works or if you run into any issues! There shouldn't be any other dependencies.</p>
-  <p>From this page, scroll up and click the blue "Code" button and then "Download ZIP." In Krita, go to the bar at the top and navigate to "Tools" > "Scripts" > "Import Python Plugin From File." After clicking on that, find the downloaded .zip file and select it.</p>
-  <p>The added plugin may be automatically turned on, but go to "Settings" > "Configure Krita" and scroll to the bottom of the left pannel to find "Python Plugin Manager." Ensure that ColorJitter is checked off there. If ColorJitter seems not to be working at this point, close and reopen Krita.</p>
+✅  MacOS Sonoma 14.5 (64-bit Krita 5.2.2)
+
+  <p> I haven't tested this plugin on everything, so even if it's not on this list feel free to try it out and let me know if it works or if you run into any issues! There shouldn't be any other dependencies.</p>
+  <p>From that page, click the blue "Code" button and then "Download ZIP." In Krita, go to the bar at the top and navigate to "Tools" > "Scripts" > "Import Python Plugin From File." After clicking on that, find the downloaded .zip file and select it. You will need to restart Krita for the plugin to load in properly.</p>
+  <p>The added plugin may be automatically turned on, but if it isn't and you can't find any of the features described in the following section go to "Settings" > "Configure Krita" and scroll to the bottom of the left pannel to find "Python Plugin Manager." Ensure that ColorJitter is checked off there. If ColorJitter seems not to be working at this point, it likely ran into an error. This means ColorJitter is incompatible with your operating system or Krita version.</p>
 
 
   <h2>Usage</h2>
